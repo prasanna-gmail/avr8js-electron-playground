@@ -7,7 +7,8 @@ const fs = require('fs')
 const interact = require('interactjs')
 const zoomArr = [0.5, 0.75, 0.85, 0.9, 1];
 const element = document.querySelector<HTMLElement>('.elements');
-const backgroundColor = hexToRgb('#444');
+const backgroundColor = hexToRgb('#443334');
+// const backgroundColor = `#ffffff`;
 
 let json = require('../../examples/settings.json');
 let value = element.getBoundingClientRect().width / element.offsetWidth;
@@ -21,7 +22,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
   // Change titlebar color
   if (backgroundColor) {
-    new Titlebar({ backgroundColor });
+    console.log("pkp timechange: ~ document.addEventListener ~ backgroundColor:", backgroundColor)
+    // new Titlebar({ backgroundColor });
   } else {
     console.error('Invalid background color');
   }
@@ -36,7 +38,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     if (data.ext != undefined) {
-     ext = data.ext;
+      ext = data.ext;
     }
 
     let button = document.createElement("button");
@@ -45,7 +47,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     button.setAttribute("name", "btn-" + index);
     button.setAttribute("class", "btn-white");
     button.innerText = data.name;
-    button.onclick = function() {
+    button.onclick = function () {
       ed.loader(data.path, data.name, data.files, board, ext);
     }
 
@@ -72,7 +74,7 @@ interact('.draggable')
           interact.createSnapGrid({ x: 5, y: 5 })
         ],
         range: Infinity,
-        relativePoints: [ { x: 0, y: 0 } ]
+        relativePoints: [{ x: 0, y: 0 }]
       }),
       interact.modifiers.restrict({
         restriction: 'parent',
@@ -88,13 +90,13 @@ interact('.draggable')
       move: dragMoveListener,
 
       // Call this function on every dragend event
-      end (event: any) {
+      end(event: any) {
         let textEl = event.target.querySelector('p')
 
         textEl && (textEl.textContent =
           'moved a distance of ' +
           (Math.sqrt(Math.pow(event.pageX - event.x0, 2) +
-                     Math.pow(event.pageY - event.y0, 2) | 0))
+            Math.pow(event.pageY - event.y0, 2) | 0))
             .toFixed(2) + 'px')
       }
     }
@@ -110,7 +112,7 @@ function dragMoveListener(event: any) {
   // Translate the element
   target.style.webkitTransform =
     target.style.transform =
-      'translate(' + x + 'px, ' + y + 'px) rotate(' + a + 'deg)'
+    'translate(' + x + 'px, ' + y + 'px) rotate(' + a + 'deg)'
 
   // Update the posiion attributes
   target.setAttribute('data-x', x)
@@ -123,7 +125,7 @@ function dragMoveListener(event: any) {
 
 document.querySelector('.zoomin').addEventListener('click', () => {
   let zoomSelect = document.querySelector<HTMLInputElement>('#zoom-select');
-  if (indexofArr < zoomArr.length-1) {
+  if (indexofArr < zoomArr.length - 1) {
     indexofArr += 1;
     value = zoomArr[indexofArr];
     zoomSelect.value = value.toString();
@@ -133,7 +135,7 @@ document.querySelector('.zoomin').addEventListener('click', () => {
 
 document.querySelector('.zoomout').addEventListener('click', () => {
   let zoomSelect = document.querySelector<HTMLInputElement>('#zoom-select');
-  if (indexofArr >0) {
+  if (indexofArr > 0) {
     indexofArr -= 1;
     value = zoomArr[indexofArr];
     zoomSelect.value = value.toString();
@@ -155,9 +157,9 @@ function hexToRgb(hex: string) {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return result
     ? {
-        red: parseInt(result[1], 16),
-        green: parseInt(result[2], 16),
-        blue: parseInt(result[3], 16),
-      }
+      red: parseInt(result[1], 16),
+      green: parseInt(result[2], 16),
+      blue: parseInt(result[3], 16),
+    }
     : null;
 }
